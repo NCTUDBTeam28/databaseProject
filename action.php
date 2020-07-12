@@ -65,8 +65,8 @@
   echo "[影片種類]:cencored<br>";
   
   echo "<br>Query result:<br>";
-
-//query
+   
+//query123
 	
 	if ($fanhao && $ldate==NULL && $udate==NULL)	{// fanhao, no date specified
   	$result = $conn->query("SELECT * FROM {$videoType} WHERE fanhao LIKE '%{$fanhao}%'");
