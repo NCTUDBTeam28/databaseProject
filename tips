@@ -1,0 +1,13 @@
+sudo /opt/lampp/lampp start
+sudo /opt/lampp/lampp stop
+create database av;
+
+https://www.apachefriends.org/faq_linux.html
+
+sudo cp -R project/index.html /opt/lampp/htdocs
+sudo cp -R project/data /opt/lampp/htdocs
+
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+sudo service mysql stop
+sudo service mysql start 
+
