@@ -66,7 +66,7 @@
   
   echo "<br>Query result:<br>";
    
-//query123
+//query
 	
 	if ($fanhao && $ldate==NULL && $udate==NULL)	{// fanhao, no date specified
   	$result = $conn->query("SELECT * FROM {$videoType} WHERE fanhao LIKE '%{$fanhao}%'");
