@@ -11,6 +11,16 @@
 			echo "<br>";
 		}
   }
+  function preprocess($myquery , &$is_first){
+		if($is_first){
+			$myquery = $myquery." WHERE ";
+			$is_first = False;
+		}
+		else{
+		  $myquery = $myquery." AND ";
+		}
+		return $myquery;
+  }
 
   if (isset($_POST["fanhao"]))
     $fanhao = $_POST['fanhao'];
@@ -66,29 +76,26 @@
   
   echo "<br>Query result:<br>";
 
-//query
+//query //WHERE fanhao LIKE '%{$fanhao}%'
+	$myquery = "SELECT * FROM {$videoType} ";
+	$is_first = True;
+	if($fanhao){
+    $myquery = preprocess($myquery, $is_first);
+    $myquery = $myquery." fanhao LIKE '%{$fanhao}%' ";
+	}
+	if($ldate){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(date,'/',-1) >= ' ".$ldate."')";
+	}	
+	if($udate){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(date,'/',-1) <= ' ".$udate."')";
+	}	
+	echo $myquery."<br>";
+  $result = $conn->query($myquery);
 	
-	if ($fanhao && $ldate==NULL && $udate==NULL)	{// fanhao, no date specified
-  	$result = $conn->query("SELECT * FROM {$videoType} WHERE fanhao LIKE '%{$fanhao}%'");
 
-	}
-	else if($fanhao && $ldate && $udate ){ // date and fanhao specified	
 	
-		//$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) BETWEEN ' ".$ldate."' AND ' ".$udate."')");
-		$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) >= ' ".$ldate."' AND SUBSTRING_INDEX(date,'/',-1) <= ' ".$udate."')");
-		//$result = $conn->query("SELECT * FROM {$videoType} 
-		//												WHERE (SUBSTRING_INDEX(date,'/',-1) BETWEEN ' 2018-11-08' AND ' 2019-11-08') ");
-	}
-	else if($fanhao && $ldate ){ // date and fanhao specified	
-	
-		$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) >= ' ".$ldate."')");
-		
-	}
-  else if($fanhao && $udate ){ // date and fanhao specified	
-	
-		$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) <= ' ".$udate."')");
-		
-	}
 
 //show result
   echo "共找到: " . $result->num_rows." 筆資料".'<br>';
