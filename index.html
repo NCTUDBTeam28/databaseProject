@@ -24,8 +24,8 @@
             <input type="text" id="title" name="title"><br>
             <label for="ldate">日期:</label>
             <input type="text" id="ldate" name="ldate">到
-            <input type="text" id="udate" name="udate"><br>
-            ex:"2006/02/05"<br>
+            <input type="text" id="udate" name="udate"><br> ex:"2006/02/05"
+            <br>
             <label for="videoType">影片類型:</label>
 
             <input type="radio" id="1" value="1" name="videoType">
@@ -62,17 +62,54 @@
             <input type="text" id="uhips" name="uhips"><br>
             <input type="submit" value="送出">
         </form>
+
+        <form action="action.php" method="post" target="_blank" id="insertVideos">
+            新增影片<br>
+            <label for="fanhao">番號:</label>
+            <input type="text" id="fanhao" name="fanhao"><br>
+            <label for="title">片名:</label>
+            <input type="text" id="title" name="title"><br>
+            <label for="ldate">日期:</label>
+            <input type="text" id="date" name="date"><br>
+            <label for="videoType">影片類型:</label>
+            <input type="radio" id="1" value="1" name="videoType">
+            <label for="1">騎兵</label>
+            <input type="radio" id="2" value="2" name="videoType">
+            <label for="2">步兵</label>
+            <input type="radio" id="3" value="3" name="videoType">
+            <label for="3">vr</label><br>
+            <input type="submit" value="送出">
+        </form>
+
+        <form action="action.php" target="_blank" id="insertActress">
+            新增女優<br>
+            <label for="actressName">名字:</label>
+            <input type="text" id="actressName" name="actressName"><br>
+            <label for="age">年齡:</label>
+            <input type="text" id="age" name="age">
+            <label for="height">身高:</label>
+            <input type="text" id="height" name="height"><br>
+            <label for="cup">罩杯:</label>
+            <input type="text" id="cup" name="cup">
+            <label for="bust">胸圍:</label>
+            <input type="text" id="bust" name="bust"><br>
+            <label for="waist">腰圍:</label>
+            <input type="text" id="waist" name="waist">
+            <label for="hips">臀圍:</label>
+            <input type="text" id="hips" name="hips"><br>
+            <input type="submit" value="送出">
+        </form>
     </div>
 
     <div id='adBottom'>
         地方的媽媽想要做菜。
     </div>
-    
+
 </body>
 
 <script>
     $('body').css({
-        'margin-top':'10%'
+        'margin-top': '10%'
     });
     $('#forms').css({
         'text-align': 'center',
@@ -87,30 +124,40 @@
     $('#actress').css({
         'background-color': '#aaa',
         'display': 'block',
-        'margin-top':'5%'
+        'margin-top': '5%'
+    });
+    $('#insertVideos').css({
+        'background-color': '#ccc',
+        'display': 'block',
+        'margin-top': '5%'
+    });
+    $('#insertActress').css({
+        'background-color': '#aaa',
+        'display': 'block',
+        'margin-top': '5%'
     });
     $('#adLeft').css({
-        'float':'left',
-        'font-size':'40px',
-        'margin-left':'10%',
-        'background-color':'#f0f',
-        'text-align':'center',
-        'width':'100px'
+        'float': 'left',
+        'font-size': '40px',
+        'margin-left': '10%',
+        'background-color': '#f0f',
+        'text-align': 'center',
+        'width': '100px'
     });
     $('#adRight').css({
-        'float':'right',
-        'font-size':'40px',
-        'margin-right':'10%',
-        'background-color':'#0ff',
-        'text-align':'center',
-        'width':'100px'
+        'float': 'right',
+        'font-size': '40px',
+        'margin-right': '10%',
+        'background-color': '#0ff',
+        'text-align': 'center',
+        'width': '100px'
     });
     $('#adBottom').css({
-        'text-align':'center',
-        'font-size':'40px',
-        'margin-top':'10%',
-        'background-color':'#ff0',
-        'height':'100px'
+        'text-align': 'center',
+        'font-size': '40px',
+        'margin-top': '10%',
+        'background-color': '#ff0',
+        'height': '100px'
     });
 </script>
 
