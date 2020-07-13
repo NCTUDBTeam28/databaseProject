@@ -65,7 +65,7 @@
   echo "[影片種類]:cencored<br>";
   
   echo "<br>Query result:<br>";
-   
+
 //query
 	
 	if ($fanhao && $ldate==NULL && $udate==NULL)	{// fanhao, no date specified
@@ -74,9 +74,20 @@
 	}
 	else if($fanhao && $ldate && $udate ){ // date and fanhao specified	
 	
-		$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) BETWEEN ' ".$ldate."' AND ' ".$udate."')");
+		//$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) BETWEEN ' ".$ldate."' AND ' ".$udate."')");
+		$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) >= ' ".$ldate."' AND SUBSTRING_INDEX(date,'/',-1) <= ' ".$udate."')");
 		//$result = $conn->query("SELECT * FROM {$videoType} 
 		//												WHERE (SUBSTRING_INDEX(date,'/',-1) BETWEEN ' 2018-11-08' AND ' 2019-11-08') ");
+	}
+	else if($fanhao && $ldate ){ // date and fanhao specified	
+	
+		$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) >= ' ".$ldate."')");
+		
+	}
+  else if($fanhao && $udate ){ // date and fanhao specified	
+	
+		$result = $conn->query("SELECT * FROM ".$videoType." WHERE fanhao LIKE '%{$fanhao}%' AND (SUBSTRING_INDEX(date,'/',-1) <= ' ".$udate."')");
+		
 	}
 
 //show result
