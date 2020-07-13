@@ -25,6 +25,11 @@
   if (isset($_POST["fanhao"]))
     $fanhao = $_POST['fanhao'];
   else $fanhao = NULL;
+  
+  if (isset($_POST["title"]))
+    $title = $_POST['title'];
+  else $title = NULL;
+  
   if (isset($_POST["ldate"])){
     $ldate = $_POST['ldate'];
 	}
@@ -62,12 +67,14 @@
 			break;
 		default:
 		  $videoType = 'censored';
-			echo "Default:censored<br>";
+			echo "Default filter:censored<br>";
   }
 //show fliter
   echo "[篩選條件]<br>";
   if ($fanhao)
     echo "[番號]:".$fanhao."<br>";
+  if ($title)
+    echo "[片名]:".$title."<br>";
   if ($ldate)
     echo "ldate =".$ldate."<br>";
   if ($udate)
@@ -82,6 +89,10 @@
 	if($fanhao){
     $myquery = preprocess($myquery, $is_first);
     $myquery = $myquery." fanhao LIKE '%{$fanhao}%' ";
+	}
+	if($title){
+    $myquery = preprocess($myquery, $is_first);
+    $myquery = $myquery." title LIKE '%{$title}%' ";
 	}
 	if($ldate){
 		$myquery = preprocess($myquery, $is_first);
