@@ -54,7 +54,10 @@
     echo "failed";
   }
   $conn->set_charset('UTF-8'); // 設定資料庫字符集
+//show fliter
   
+echo "======================<br>";
+echo "篩選條件<br>";
   switch($v){
 		case 1:
 			$videoType = 'censored';
@@ -67,10 +70,9 @@
 			break;
 		default:
 		  $videoType = 'censored';
-			echo "Default filter:censored<br>";
+			echo "(Default videoType censored)<br>";
   }
-//show fliter
-  echo "[篩選條件]<br>";
+
   if ($fanhao)
     echo "[番號]:".$fanhao."<br>";
   if ($title)
@@ -79,7 +81,7 @@
     echo "ldate =".$ldate."<br>";
   if ($udate)
     echo "udate =".$udate."<br>";
-  echo "[影片種類]:cencored<br>";
+  echo "[影片種類]:".$videoType."<br>";
   
   echo "<br>Query result:<br>";
 
@@ -102,14 +104,14 @@
 		$myquery = preprocess($myquery, $is_first);
 		$myquery = $myquery." (SUBSTRING_INDEX(date,'/',-1) <= ' ".$udate."')";
 	}	
-	echo $myquery."<br>";
+	//echo $myquery."<br>";
+	echo "======================";
+	if ($is_first)
+		echo "Showing all result......<br>";
   $result = $conn->query($myquery);
 	
 
-	
-
 //show result
-  echo "共找到: " . $result->num_rows." 筆資料".'<br>';
   show_result($result);
 
 
