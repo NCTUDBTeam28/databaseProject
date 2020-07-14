@@ -16,6 +16,12 @@
         美<br>女<br>荷<br>官<br>在<br>線<br>發<br>牌<br>
     </div>
     <div id='forms'>
+        <form action="actio4.php" method="post" target="_blank" id="category">
+            勾選影片類型<br>
+            <input type="checkbox" value="milf" name="category"> 人妻
+            <input type="checkbox" value="mature" name="category"> 熟女
+            <input type="checkbox" value="amature" name="category"> 素人
+        </form>
         <form action="action.php" method="post" target="_blank" id="videos">
             從影片資料查詢<br>
             <label for="fanhao">番號:</label>
@@ -119,9 +125,14 @@
         'margin-right': '25%',
         'width': '50%'
     });
+    $('#category').css({
+        'background-color': '#aaa',
+        'display': 'block'
+    });
     $('#videos').css({
         'background-color': '#ccc',
-        'display': 'block'
+        'display': 'block',
+        'margin-top': '5%'
     });
     $('#actress').css({
         'background-color': '#aaa',
