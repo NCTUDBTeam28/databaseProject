@@ -1,4 +1,5 @@
 <?php  
+
   function show_result($result){
 		echo "共找到: ".$result->num_rows." 筆資料".'<br>';
 		while ($girl = $result->fetch_assoc()) {
@@ -126,11 +127,61 @@
     echo "[uhips] =".$uhips."<br>";
   echo "======================";
   echo "<br>Query result:<br>";
-	
 
-//show result
 
-//  show_result($result);
+//step 1: find actress
+
+  $myquery = "SELECT name,imgurl FROM actress";
+  $is_first = True;
+  if($actressName){
+    $myquery = preprocess($myquery, $is_first);
+    $myquery = $myquery." name LIKE '%{$actressName}%' ";
+  }
+  //echo $myquery."<br>";
+
+
+  $actresses = array();
+  $urls = array();
+	if ($catStmt = mysqli_prepare($conn, $myquery)) 
+	{
+		  $catStmt->execute();
+		  $result = $catStmt->get_result();
+		  // Fetch the result variables.
+		  while ($row = $result->fetch_assoc()) 
+		  {
+		      // Store the results for later use.
+		      //$_SESSION['name'] = $row['name'];
+          //$_SESSION['imgurl'] = $row['imgurl'];
+					array_push($actresses, $row['name']);
+          array_push($urls, $row['imgurl']);
+		  }
+	}
+
+//step 2: for each actress, do a query.
+  $i = 0;
+  foreach($actresses as $actor){
+    echo $actor."<br>";
+    print '<tr>
+		          <td>
+		             <img name="myimage" src="'.$urls[$i].'" width="240" height="240" alt="word" />
+		          </td>
+		     </tr>';
+    echo "<br>";
+    $i = $i + 1;
+    $myquery = "SELECT fanhao,imgurl,title FROM (SELECT DISTINCT fanhao as number FROM actress_censored_revised WHERE actress LIKE '%{$actor}%') table1 LEFT JOIN censored on table1.number = censored.fanhao";
+    //$myquery = "SELECT DISTINCT fanhao as number FROM actress_censored_revised WHERE actress LIKE '%{$actor}%'";
+
+    //SELECT * FROM actress_censored_revised WHERE `actress` LIKE '%桃乃木%'
+		//SELECT `fanhao`,`imgurl` FROM (SELECT DISTINCT `fanhao` as `number` FROM actress_censored_revised WHERE `actress` LIKE '%桃乃木%') table1 LEFT JOIN censored on table1.number = censored.fanhao;
+    echo $myquery."<br>";
+
+    $result = $conn->query($myquery);
+    show_result($result);
+   
+    echo "============================================<br>";
+    unset($videos);
+    $result->free();
+  }
 
 
 
