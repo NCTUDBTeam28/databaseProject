@@ -6,7 +6,7 @@
 			echo $girl['title'].'<br>';
 			print '<tr>
 		          <td>
-		             <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="240" alt="word" />
+		             <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />
 		          </td>
 		        </tr>';
 			echo "<br>";
@@ -22,6 +22,7 @@
 		}
 		return $myquery;
   }
+
 
   if (isset($_POST["actressName"]))
     $actressName = $_POST['actressName'];
@@ -128,18 +129,77 @@
   echo "======================";
   echo "<br>Query result:<br>";
 
+  //time()
+  //echo 'current Unix timestamp: '.time().'<br>'; //當前的 Unix 時間戳
+  //echo '今天日期是: '.date('Y-m-d').'<br>';
 
 //step 1: find actress
-
+  //make query
   $myquery = "SELECT name,imgurl FROM actress";
   $is_first = True;
   if($actressName){
     $myquery = preprocess($myquery, $is_first);
     $myquery = $myquery." name LIKE '%{$actressName}%' ";
   }
-  //echo $myquery."<br>";
 
+  if($lage){
+    $myquery = preprocess($myquery, $is_first);
+    $lbirthtime = time() - (24*60*60*365)*$lage;
+    $lbirthdate = date('Y-m-d',$lbirthtime);
+    $myquery = $myquery." birthday <= '{$lbirthdate}' ";
+  }
+  if($uage){
+    $myquery = preprocess($myquery, $is_first);
+    $ubirthtime = time() - (24*60*60*365)*$uage;
+    $ubirthdate = date('Y-m-d',$ubirthtime);
+    $myquery = $myquery." birthday >= '{$ubirthdate}' ";
+  }
 
+	if($lheight){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(height,'cm',1) >= '{$lheight}')";
+	}	
+	if($uheight){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(height,'cm',1) <= '{$uheight}')";
+	}	  
+
+	if($lcup){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (cup_size >= '{$lcup}')";
+	}	
+	if($ucup){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (cup_size <= '{$ucup}')";
+	}	 	
+	if($lbust){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(bust,'cm',1) >= '{$lbust}')";
+	}	
+	if($ubust){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(bust,'cm',1) <= '{$ubust}')";
+	}	 	
+
+  if($lwaist){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(waist,'cm',1) >= '{$lwaist}')";
+	}	
+	if($uwaist){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(waist,'cm',1) <= '{$uwaist}')";
+	}		
+  if($lhips){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(hips,'cm',1) >= '{$lhips}')";
+	}	
+	if($uhips){
+		$myquery = preprocess($myquery, $is_first);
+		$myquery = $myquery." (SUBSTRING_INDEX(hips,'cm',1) <= '{$uhips}')";
+	}	
+
+  echo $myquery."<br>";
+  //end make query
   $actresses = array();
   $urls = array();
 	if ($catStmt = mysqli_prepare($conn, $myquery)) 
@@ -147,6 +207,7 @@
 		  $catStmt->execute();
 		  $result = $catStmt->get_result();
 		  // Fetch the result variables.
+      echo "共找到: ".$result->num_rows." 位女優".'<br>';
 		  while ($row = $result->fetch_assoc()) 
 		  {
 		      // Store the results for later use.
@@ -156,33 +217,51 @@
           array_push($urls, $row['imgurl']);
 		  }
 	}
-
+   
 //step 2: for each actress, do a query.
-  $i = 0;
+  $i = 1;
+  $j = 0;
+	$videoType = array("censored", "uncensored","vr");
   foreach($actresses as $actor){
-    echo $actor."<br>";
+    $counter = array();
+    echo "第{$i}位女優: {$actor}<br>";
     print '<tr>
 		          <td>
-		             <img name="myimage" src="'.$urls[$i].'" width="240" height="240" alt="word" />
+		             <img name="myimage" src="'.$urls[$i-1].'" width="200" height="200" alt="word" />
 		          </td>
 		     </tr>';
     echo "<br>";
     $i = $i + 1;
-    $myquery = "SELECT fanhao,imgurl,title FROM (SELECT DISTINCT fanhao as number FROM actress_censored_revised WHERE actress LIKE '%{$actor}%') table1 LEFT JOIN censored on table1.number = censored.fanhao";
+//step 3: for each type of video, find fanhao.
+
+		for($j = 0; $j < 3; $j = $j+1 ){
+		  echo $videoType[$j].":<br>";
+		  $myquery = "SELECT DISTINCT fanhao,imgurl,title FROM (SELECT DISTINCT fanhao as number FROM actress_{$videoType[$j]}_revised WHERE actress LIKE '%{$actor}%') table1 JOIN {$videoType[$j]} on table1.number = {$videoType[$j]}.fanhao";
+      
+      //echo $myquery."<br>";
+		  if($result = $conn->query($myquery)){
+		    show_result($result);
+		    array_push($counter, $result->num_rows);
+		    $result->free();
+			}
+			else{
+		    echo "共找到 0 筆資料<br>"; 
+		    array_push($counter, 0);   
+			}
+    }
+
+    
+    echo "總計：有碼".$counter[0]."部，無碼".$counter[1]."部，VR".$counter[2]."部<br>";
+    unset($counter);
+    echo "============================================<br>";
+  }
+
     //$myquery = "SELECT DISTINCT fanhao as number FROM actress_censored_revised WHERE actress LIKE '%{$actor}%'";
 
     //SELECT * FROM actress_censored_revised WHERE `actress` LIKE '%桃乃木%'
 		//SELECT `fanhao`,`imgurl` FROM (SELECT DISTINCT `fanhao` as `number` FROM actress_censored_revised WHERE `actress` LIKE '%桃乃木%') table1 LEFT JOIN censored on table1.number = censored.fanhao;
-    echo $myquery."<br>";
-
-    $result = $conn->query($myquery);
-    show_result($result);
-   
-    echo "============================================<br>";
-    unset($videos);
-    $result->free();
-  }
-
-
-
+    //echo $myquery."<br>";
 ?>
+
+
+

@@ -5,7 +5,7 @@
 			echo $girl['title'].'<br>';
 			print '<tr>
 		          <td>
-		             <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="240" alt="word" />
+		             <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />
 		          </td>
 		        </tr>';
 			echo "<br>";
@@ -83,7 +83,7 @@ echo "篩選條件<br>";
     echo "udate =".$udate."<br>";
   echo "[影片種類]:".$videoType."<br>";
   
-  echo "<br>Query result:<br>";
+
 
 //query //WHERE fanhao LIKE '%{$fanhao}%'
 	$myquery = "SELECT * FROM {$videoType} ";
@@ -105,14 +105,21 @@ echo "篩選條件<br>";
 		$myquery = $myquery." (SUBSTRING_INDEX(date,'/',-1) <= ' ".$udate."')";
 	}	
 	//echo $myquery."<br>";
-	echo "======================";
+	echo "<br>======================<br>";
+  echo "Query result:<br>";
 	if ($is_first)
 		echo "Showing all result......<br>";
   $result = $conn->query($myquery);
 	
 
 //show result
-  show_result($result);
+	if($result = $conn->query($myquery)){
+		show_result($result);
+		$result->free();
+  }
+	else{
+		echo "共找到 0 筆資料，請換個條件再篩選一次... (◓Д◒)✄╰⋃╯<br>";   
+  }
 
 
 //date is (space)2019-11-08
