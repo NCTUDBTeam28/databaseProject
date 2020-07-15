@@ -3,9 +3,9 @@
     $actressName = $_POST['actressName'];
   else $actressName = NULL;
 
-  if (isset($_POST["age"]))
-    $age = $_POST['age'];
-  else $age = NULL;
+  if (isset($_POST["birthday"]))
+    $birthday = $_POST['birthday'];
+  else $birthday = NULL;
 
   if (isset($_POST["height"]))
     $height = $_POST['height'];
@@ -32,8 +32,8 @@
   else $hips = NULL;
 
   $serve = 'localhost';
-  $username = 'root';
-  $password = 'y02260111';
+  $username = 'ben';
+  $password = '00000000';
   $dbname = 'av';
   $conn = new Mysqli($serve,$username,$password,$dbname);
   if($conn->connect_error){
@@ -44,12 +44,12 @@
 //show fliter
   
 echo "======================<br>";
-echo "篩選條件<br>";
+echo "女優資訊<br>";
 
   if ($actressName)
     echo "[演員]:".$actressName."<br>";
-  if ($age)
-    echo "[年齡]:".$age."<br>";
+  if ($birthday)
+    echo "[生日]:".$birthday."<br>";
   if ($height)
     echo "[身高]:".$height."<br>";
   if ($cup)
@@ -63,7 +63,7 @@ echo "篩選條件<br>";
 
 //query //insert into actress
   $myquery = "INSERT INTO actress (name,birthday,height,cup_size,bust,waist,hips) 
-  VALUES ($actressName,$age,$height,$cup,$bust,$waist,$hips)";
+  VALUES ('".$actressName."',{$birthday},{$height},'".$cup."',{$bust},{$waist},{$hips})";
   if ($conn->query($myquery) === TRUE) {
   echo "New record created successfully";
   } 

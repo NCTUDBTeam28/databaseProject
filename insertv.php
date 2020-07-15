@@ -21,8 +21,8 @@
   else $v = NULL;
 
   $serve = 'localhost';
-  $username = 'root';
-  $password = 'y02260111';
+  $username = 'ben';
+  $password = '00000000';
   $dbname = 'av';
   $conn = new Mysqli($serve,$username,$password,$dbname);
   if($conn->connect_error){
@@ -33,7 +33,7 @@
 //show fliter
   
 echo "======================<br>";
-echo "篩選條件<br>";
+echo "影片資訊<br>";
   switch($v){
     case 1:
       $videoType = 'censored';
@@ -61,8 +61,9 @@ echo "篩選條件<br>";
   echo "<br>Query result:<br>";
 
 //query //insert into video type
+
   $myquery = "INSERT INTO {$videoType} (fanhao,title,date) 
-  VALUES ($fanhao,$title,$date)";
+  VALUES ('".$fanhao."','".$title."',{$date})";
   if ($conn->query($myquery) === TRUE) {
   echo "New record created successfully";
   } 
@@ -71,12 +72,12 @@ echo "篩選條件<br>";
   }
 //query insert into videotype_reverse
   $myquery1 = "INSERT INTO actress_{$videoType}_revised (fanhao,actress) 
-  VALUES ($fanhao,$actressName)";
-  if ($conn->query($myquery1) === TRUE) {
+  VALUES ('".$fanhao."','".$actressName."')";
+  if ($conn->query($myquery1) == TRUE) {
   echo "New record created successfully";
   } 
   else {
-  echo "Error: " . $myquery . "<br>" . $conn->error;
+  echo "Error: " . $myquery1 . "<br>" . $conn->error;
   }
 //show result
 //date is (space)2019-11-08

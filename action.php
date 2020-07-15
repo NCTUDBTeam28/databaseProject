@@ -86,7 +86,7 @@ echo "篩選條件<br>";
 
 
 //query //WHERE fanhao LIKE '%{$fanhao}%'
-	$myquery = "SELECT * FROM {$videoType} ";
+	$myquery = "SELECT DISTINCT * FROM {$videoType} ";
 	$is_first = True;
 	if($fanhao){
     $myquery = preprocess($myquery, $is_first);
@@ -108,19 +108,20 @@ echo "篩選條件<br>";
 	echo "<br>======================<br>";
   echo "Query result:<br>";
 	if ($is_first)
-		echo "Showing all result......<br>";
-  $result = $conn->query($myquery);
-	
+		echo "請輸入篩選資料！<br>";
+  else{
+		$result = $conn->query($myquery);
+		
 
-//show result
-	if($result = $conn->query($myquery)){
-		show_result($result);
-		$result->free();
+	//show result
+		if($result = $conn->query($myquery)){
+			show_result($result);
+			$result->free();
+		}
+		else{
+			echo "共找到 0 筆資料，請換個條件再篩選一次... (◓Д◒)✄╰⋃╯<br>";   
+		}
   }
-	else{
-		echo "共找到 0 筆資料，請換個條件再篩選一次... (◓Д◒)✄╰⋃╯<br>";   
-  }
-
 
 //date is (space)2019-11-08
 ?>
