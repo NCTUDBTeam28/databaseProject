@@ -21,7 +21,7 @@ Here I use simple example to show that how to create your own jav website.
 I crawl on www.javhoo.com to find out the main characters of those videos via Beautifulsoup4.)
 
 ##
-How to issue an simple av website？
+How to issue an simple av website?
 website = Database + server + Domain name
 
 
