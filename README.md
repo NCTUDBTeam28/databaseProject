@@ -110,11 +110,19 @@ Let your website accessable by other terminals.
 You have to apply for a domain name, manage ip problem, and some secure stuff like ssh connection.
 Here I use ngrok to automatically deal with domain name and ip problem.
 
-Explaination
----
+## Introdution
+
+<<<<<<< HEAD
+
+
+=======
+Due to the fact that the original dataset was lack of casts of each viedo, I crawl on www.javhoo.com to find out the main characters of those videos via Beautifulsoup4.
+  
 
 
 
+
+>>>>>>> cc3e23f26f7159a721a777f8699da61b0bd74ec0
 
 ## Appendix and FAQ
 
