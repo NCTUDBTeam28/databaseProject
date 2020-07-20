@@ -3,7 +3,7 @@ title: 'Readme'
 disqus: hackmd
 ---
 
-NVTU Database Project Team28
+NCTU Database Project Team28
 ===
 ![downloads](https://img.shields.io/github/downloads/atom/atom/total.svg)
 ![build](https://img.shields.io/appveyor/ci/:user/:repo.svg)
