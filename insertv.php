@@ -9,7 +9,7 @@
 
   if (isset($_POST["actressName"]))
     $actressName = $_POST['actressName'];
-  else $title = NULL;
+  else $actressName = NULL;
   
   if (isset($_POST["date"])){
     $date = $_POST['date'];
@@ -64,21 +64,27 @@ echo "影片資訊<br>";
 
   $myquery = "INSERT INTO {$videoType} (fanhao,title,date) 
   VALUES ('".$fanhao."','".$title."',{$date})";
+  
   if ($conn->query($myquery) === TRUE) {
-  echo "New record created successfully";
+    echo "New record created successfully";
   } 
   else {
-  echo "Error: " . $myquery . "<br>" . $conn->error;
+    echo "Error:<br>";
+	echo htmlspecialchars($myquery, ENT_QUOTES, 'utf-8');
+	echo $conn->error;
   }
 //query insert into videotype_reverse
-  $myquery1 = "INSERT INTO actress_{$videoType}_revised (fanhao,actress) 
-  VALUES ('".$fanhao."','".$actressName."')";
-  if ($conn->query($myquery1) == TRUE) {
-  echo "New record created successfully";
-  } 
-  else {
-  echo "Error: " . $myquery1 . "<br>" . $conn->error;
-  }
+  if($actressName)
+	  $myquery1 = "INSERT INTO actress_{$videoType}_revised (fanhao,actress) 
+	  VALUES ('".$fanhao."','".$actressName."')";
+	  if ($conn->query($myquery1) == TRUE) {
+	  echo "New record created successfully";
+	  } 
+	  else {
+		echo "Error:<br>";
+		echo htmlspecialchars($myquery, ENT_QUOTES, 'utf-8');
+		echo $conn->error;
+	  }
 //show result
 //date is (space)2019-11-08
 ?>

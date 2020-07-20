@@ -2,7 +2,8 @@
   function show_result($result){
 		echo "共找到: ".$result->num_rows." 筆資料".'<br>';
 		while ($girl = $result->fetch_assoc()) {
-			echo $girl['title'].'<br>';
+			echo htmlspecialchars($girl['title'], ENT_QUOTES, 'utf-8'); 
+			echo '<br>';
 			print '<tr>
 		          <td>
 		             <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />

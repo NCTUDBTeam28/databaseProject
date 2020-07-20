@@ -68,7 +68,9 @@ echo "女優資訊<br>";
   echo "New record created successfully";
   } 
   else {
-  echo "Error: " . $myquery . "<br>" . $conn->error;
+    echo "Error 請輸入完整資料:<br>";
+	echo htmlspecialchars($myquery, ENT_QUOTES, 'utf-8');
+	echo $conn->error;
   }
 
 //show result
