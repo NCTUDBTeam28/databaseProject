@@ -65,10 +65,10 @@ echo "女優資訊<br>";
   $myquery = "INSERT INTO actress (name,birthday,height,cup_size,bust,waist,hips) 
   VALUES ('".$actressName."',{$birthday},{$height},'".$cup."',{$bust},{$waist},{$hips})";
   if ($conn->query($myquery) === TRUE) {
-  echo "New record created successfully";
+  echo "New record on actress created successfully.";
   } 
   else {
-    echo "Error 請輸入完整資料:<br>";
+    echo "Error 請輸入完整資料!:<br>";
 	echo htmlspecialchars($myquery, ENT_QUOTES, 'utf-8');
 	echo $conn->error;
   }

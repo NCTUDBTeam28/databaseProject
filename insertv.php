@@ -66,7 +66,7 @@ echo "影片資訊<br>";
   VALUES ('".$fanhao."','".$title."',{$date})";
   
   if ($conn->query($myquery) === TRUE) {
-    echo "New record created successfully";
+    echo "New record on video created successfully.<br>";
   } 
   else {
     echo "Error:<br>";
@@ -78,7 +78,7 @@ echo "影片資訊<br>";
 	  $myquery1 = "INSERT INTO actress_{$videoType}_revised (fanhao,actress) 
 	  VALUES ('".$fanhao."','".$actressName."')";
 	  if ($conn->query($myquery1) == TRUE) {
-	  echo "New record created successfully";
+	  echo "New record on actress info created successfully.";
 	  } 
 	  else {
 		echo "Error:<br>";
