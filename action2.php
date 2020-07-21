@@ -3,13 +3,16 @@
   function show_result($result){
 		echo "共找到: ".$result->num_rows." 筆資料".'<br>';
 		while ($girl = $result->fetch_assoc()) {
-			echo htmlspecialchars($girl['title'], ENT_QUOTES, 'utf-8'); 
+			echo $girl['title']; 
 			echo '<br>';
-			print '<tr>
-		          <td>
-		             <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />
-		          </td>
-		        </tr>';
+			if($girl['imgurl']){
+				print '<tr>
+					  <td>
+						 <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />
+					  </td>
+					</tr>';
+			}
+			else{ echo "(沒有圖片)";}
 			echo "<br>";
 		}
   }
@@ -226,29 +229,40 @@
   foreach($actresses as $actor){
     $counter = array();
     echo "第{$i}位女優: {$actor}<br>";
-    print '<tr>
-		          <td>
-		             <img name="myimage" src="'.$urls[$i-1].'" width="200" height="200" alt="word" />
-		          </td>
-		     </tr>';
+	if($urls[$i-1]){
+		print   '<tr>
+					<td>
+						<img name="myimage" src="'.$urls[$i-1].'" width="200" height="200" alt="word" />
+					</td>
+				</tr>';
+	}
+	else{ 
+		echo "沒有圖片.<br>";
+		print '<tr>
+			  <td>
+				 <img name="myimage" src="https://truth.bahamut.com.tw/s01/202004/9cc414022cdb034b399614ce929147fa.JPG?w=1000" 
+				 width="100" height="100" alt="word" />
+			 </td>
+			</tr>';
+	}
     echo "<br>";
     $i = $i + 1;
 //step 3: for each type of video, find fanhao.
 
 		for($j = 0; $j < 3; $j = $j+1 ){
-		  echo $videoType[$j].":<br>";
-		  $myquery = "SELECT DISTINCT fanhao,imgurl,title FROM (SELECT DISTINCT fanhao as number FROM actress_{$videoType[$j]}_revised WHERE actress LIKE '%{$actor}%') table1 JOIN {$videoType[$j]} on table1.number = {$videoType[$j]}.fanhao";
+			echo $videoType[$j].":<br>";
+			$myquery = "SELECT DISTINCT fanhao,imgurl,title FROM (SELECT DISTINCT fanhao as number FROM actress_{$videoType[$j]}_revised WHERE actress LIKE '%{$actor}%') table1 JOIN {$videoType[$j]} on table1.number = {$videoType[$j]}.fanhao";
       
       //echo $myquery."<br>";
-		  if($result = $conn->query($myquery)){
+		if($result = $conn->query($myquery)){
 		    show_result($result);
 		    array_push($counter, $result->num_rows);
 		    $result->free();
-			}
-			else{
+		}
+		else{
 		    echo "共找到 0 筆資料<br>"; 
 		    array_push($counter, 0);   
-			}
+		}
     }
 
     
