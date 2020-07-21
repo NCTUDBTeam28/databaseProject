@@ -2,12 +2,24 @@
   function show_result($result){
 		echo "共找到: ".$result->num_rows." 筆資料".'<br>';
 		while ($girl = $result->fetch_assoc()) {
-			echo $girl['title'].'<br>';
-			print '<tr>
-		          <td>
-		             <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />
-		          </td>
-		        </tr>';
+			echo $girl['title']; 
+			echo '<br>';
+			if($girl['imgurl']){
+				print '<tr>
+					  <td>
+						 <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />
+					  </td>
+					</tr>';
+			}
+			else{
+				echo "沒有圖片.<br>";
+				print '<tr>
+					  <td>
+						 <img name="myimage" src="https://truth.bahamut.com.tw/s01/202004/9cc414022cdb034b399614ce929147fa.JPG?w=1000" 
+						 width="100" height="100" alt="word" />
+					 </td>
+					</tr>';
+			}
 			echo "<br>";
 		}
   }
@@ -103,8 +115,9 @@ echo "篩選條件<br>";
 	if($udate){
 		$myquery = preprocess($myquery, $is_first);
 		$myquery = $myquery." (SUBSTRING_INDEX(date,'/',-1) <= ' ".$udate."')";
-	}	
-	//echo $myquery."<br>";
+	}
+	echo htmlspecialchars($myquery, ENT_QUOTES, 'utf-8');
+	echo "<br>";
 	echo "<br>======================<br>";
   echo "Query result:<br>";
 	if ($is_first)

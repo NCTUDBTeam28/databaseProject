@@ -2,12 +2,24 @@
   function show_result($result){
 		echo "共找到: ".$result->num_rows." 筆資料".'<br>';
 		while ($girl = $result->fetch_assoc()) {
-			echo $girl['title'].'<br>';
-			print '<tr>
-		          <td>
-		             <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />
-		          </td>
-		        </tr>';
+			echo $girl['title']; 
+			echo '<br>';
+			if($girl['imgurl']){
+				print '<tr>
+					  <td>
+						 <img name="myimage" src="'.$girl['imgurl'].'" width="240" height="300" alt="word" />
+					  </td>
+					</tr>';
+			}
+			else{
+				echo "沒有圖片.<br>";
+				print '<tr>
+					  <td>
+						 <img name="myimage" src="https://truth.bahamut.com.tw/s01/202004/9cc414022cdb034b399614ce929147fa.JPG?w=1000" 
+						 width="100" height="100" alt="word" />
+					  </td>
+					</tr>';
+			}
 			echo "<br>";
 		}
   }
@@ -53,10 +65,10 @@ foreach($category as $condition){
 }
 
 
-	echo "<br>======================<br>";
+  echo "<br>======================<br>";
   echo "Query result:<br>";
-	if ($is_first)
-		echo "Showing all result......<br>";
+  if ($is_first)
+	echo "Showing all result......<br>";
   echo $myquery."<br>";
   echo "Query result:<br>";
   $result = $conn->query($myquery);
@@ -66,10 +78,10 @@ foreach($category as $condition){
 	if($result = $conn->query($myquery)){
 		show_result($result);
 		$result->free();
-  }
+    }
 	else{
 		echo "共找到 0 筆資料，請換個條件再篩選一次... (◓Д◒)✄╰⋃╯<br>";   
-  }
+    }
 
 
 //date is (space)2019-11-08
