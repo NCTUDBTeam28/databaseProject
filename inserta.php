@@ -144,11 +144,6 @@ echo "女優資訊<br>";
 			if ($conn->query($myquery) === TRUE) {
 				echo "New record on actress created successfully.";
 			} 
-			else {
-				echo "Error 請輸入完整資料!<br>";
-				//echo $myquery."<br>";
-				//echo $conn->error;
-			} 
 		}
 	}
   }

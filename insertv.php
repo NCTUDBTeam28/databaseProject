@@ -118,34 +118,37 @@ echo "影片資訊<br>";
   //DELETE FROM  `censored` WHERE `fanhao` LIKE '%DB-2020%'
 
 	if(check_valid($myquery)===True && check_valid($actressName)===True){ //check vaild
-		$mycheckquery = "SELECT * FROM {$videoType} WHERE fanhao = '{$fanhao}' ";
-		//echo $mycheckquery."<br>";
-		if($result = $conn->query($mycheckquery)){ //check duplicate
-			$video_is_duplicate = show_result($result);
-			$result->free();
-			if($video_is_duplicate)
-				echo "The video is already in javquery.";
-			else{ //let's go
-				if ($conn->query($myquery) === TRUE) {
-					echo "New record on video created successfully.<br>";
-				} 
-				else {
-					echo "Error 演員資訊以外為必填，請輸入完整資料!<br>";
-					//echo $myquery."<br>";
-					//echo $conn->error;
-				}
-				if($actressName){
-					echo "插入演員資訊:<br>";
-					$myquery1 = "INSERT INTO actress_{$videoType}_revised (fanhao,actress) 
-					VALUES ('".$fanhao."','".$actressName."')";
-					echo $myquery1."<br>";
-					if ($conn->query($myquery1) == TRUE) {
-						echo "New record on actress info created successfully.";
+		if($fanhao == NULL || $title == NULL || $date == NULL){ echo "演員資訊以外為必填<br>"; }
+		else{
+			$mycheckquery = "SELECT * FROM {$videoType} WHERE fanhao = '{$fanhao}' ";
+			//echo $mycheckquery."<br>";
+			if($result = $conn->query($mycheckquery)){ //check duplicate
+				$video_is_duplicate = show_result($result);
+				$result->free();
+				if($video_is_duplicate)
+					echo "The video is already in javquery.";
+				else{ //let's go
+					if ($conn->query($myquery) === TRUE) {
+						echo "New record on video created successfully.<br>";
 					} 
 					else {
-						echo "Error:你做了什麼@@<br>";
+						echo "Error 演員資訊以外為必填，請輸入完整資料!<br>";
 						//echo $myquery."<br>";
 						//echo $conn->error;
+					}
+					if($actressName){
+						echo "插入演員資訊:<br>";
+						$myquery1 = "INSERT INTO actress_{$videoType}_revised (fanhao,actress) 
+						VALUES ('".$fanhao."','".$actressName."')";
+						echo $myquery1."<br>";
+						if ($conn->query($myquery1) == TRUE) {
+							echo "New record on actress info created successfully.";
+						} 
+						else {
+							echo "Error:你做了什麼@@<br>";
+							//echo $myquery."<br>";
+							//echo $conn->error;
+						}
 					}
 				}
 			}

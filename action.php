@@ -44,7 +44,7 @@
   
   if (isset($_POST["ldate"])){
     $ldate = $_POST['ldate'];
-	}
+  }
   else $ldate = NULL;
 
   if (isset($_POST["udate"])){
@@ -101,12 +101,12 @@ echo "篩選條件<br>";
 	$myquery = "SELECT DISTINCT * FROM {$videoType} ";
 	$is_first = True;
 	if($fanhao){
-    $myquery = preprocess($myquery, $is_first);
-    $myquery = $myquery." fanhao LIKE '%{$fanhao}%' ";
+    	$myquery = preprocess($myquery, $is_first);
+    	$myquery = $myquery." fanhao LIKE '%{$fanhao}%' ";
 	}
 	if($title){
-    $myquery = preprocess($myquery, $is_first);
-    $myquery = $myquery." title LIKE '%{$title}%' ";
+    	$myquery = preprocess($myquery, $is_first);
+    	$myquery = $myquery." title LIKE '%{$title}%' ";
 	}
 	if($ldate){
 		$myquery = preprocess($myquery, $is_first);
