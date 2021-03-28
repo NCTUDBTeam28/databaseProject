@@ -10,7 +10,7 @@ NCTU Database Project Team28
 ![chat](https://img.shields.io/discord/:serverId.svg)
 
 ## Table of Contents
-
+===== THE WEDSITE HAS BEEN CLOSED =====
 
 ## Introdution
 I am student major in EECS in NCTU.
@@ -110,7 +110,6 @@ Let your website accessable by other terminals.
 You have to apply for a domain name, manage ip problem, and some secure stuff like ssh connection.
 Here I use ngrok to automatically deal with domain name and ip problem.
 
-Explaination
 ---
 
 
